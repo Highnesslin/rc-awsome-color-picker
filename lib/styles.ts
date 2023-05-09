@@ -171,7 +171,7 @@ export const StyledHSVPicker = styled.div`
     right: 5px;
     top: 0;
     margin-bottom: 4px;
-    background-image: linear-gradient(to bottom, red, #ff0080, magenta, #8000ff, blue, #0080ff, cyan, #00ff80, lime, #80ff00, yellow, #ff8000, red);
+    background-image: linear-gradient(to top, red, #ff0080, magenta, #8000ff, blue, #0080ff, cyan, #00ff80, lime, #80ff00, yellow, #ff8000, red);
   }
 
   .s-v-plane {

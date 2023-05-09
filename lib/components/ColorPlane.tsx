@@ -1,5 +1,4 @@
 import React, { HTMLAttributes } from 'react'
-import { DefaultTheme } from 'styled-components'
 import HSVPicker from './HSVPicker'
 import RGBInput from './RGBInput'
 import HexInput from './HexInput'
@@ -12,7 +11,7 @@ import { StyledColorPicker } from '../styles'
 
 const CLOSE_SVG = <svg width="10" height="10" xmlns="http://www.w3.org/2000/svg"><path d="M5.95 4.536l2.828 2.828a1 1 0 0 1-1.414 1.414L4.536 5.95 1.707 8.778A1 1 0 0 1 .293 7.364L3.12 4.536.293 1.707A1 1 0 0 1 1.707.293L4.536 3.12 7.364.293a1 1 0 0 1 1.414 1.414L5.95 4.536z" fill="#B8BCBF" fillRule="evenodd" /></svg>
 
-const defaultPalette = {
+const defaultTheme = {
   light: {
     bgColor: '#fff',
     tc: '#415058',
@@ -54,10 +53,9 @@ const defaultPalette = {
   }
 }
 export interface ColorPickerProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onChange'> {
-  theme?: string
+  // theme?: DefaultTheme
   value?: string,
-  headerText?: string,
-  palette?: DefaultTheme,
+  headerTitle?: string,
   onChange: (color: string) => void,
   onClose?: (e: React.MouseEvent<HTMLSpanElement, globalThis.MouseEvent>) => void,
 }
@@ -68,8 +66,7 @@ interface State {
 }
 export default class ColorPlane extends React.PureComponent<ColorPickerProps, State> {
   static defaultProps = {
-    headerText: '颜色设置',
-    palette: defaultPalette['light']
+    headerTitle: '颜色设置',
   }
 
   static getDerivedStateFromProps(props: ColorPickerProps, state: State) {
@@ -137,7 +134,7 @@ export default class ColorPlane extends React.PureComponent<ColorPickerProps, St
   }
 
   render() {
-    const { headerText, palette, className, style, onClose } = this.props
+    const { headerTitle, className, style, onClose } = this.props
     const { hex, alpha, mode } = this.state
 
     const hexValue = (!hex || hex === TRANSPARENT) ? STANDARD_TRANSPARENT : hex.slice(1)
@@ -148,11 +145,11 @@ export default class ColorPlane extends React.PureComponent<ColorPickerProps, St
         style={style}
         onMouseDown={stopReactEventPropagation}
         onClick={stopReactEventPropagation}
-        theme={palette}
+        theme={defaultTheme.light}
       >
 
         <header className="color-picker-header">
-          <div className="header-text">{headerText}</div>
+          <div className="header-text">{headerTitle}</div>
           {onClose && <span className="icon" onMouseDown={onClose}>{CLOSE_SVG}</span>}
         </header>
 
@@ -162,7 +159,7 @@ export default class ColorPlane extends React.PureComponent<ColorPickerProps, St
             alpha={alpha}
             onChange={this.hsvChange}
             onConfirm={this.hsvConfirm}
-            theme={palette}
+            theme={defaultTheme.light}
             extra={(
               <ColorSucker onSucker={this.handleHexChange} />
             )}
@@ -178,20 +175,20 @@ export default class ColorPlane extends React.PureComponent<ColorPickerProps, St
               <HexInput
                 hexValue={hexValue}
                 handleChange={this.handleHexChange}
-                theme={palette}
+                theme={defaultTheme.light}
               />
             )}
 
             {mode === MODE.RGB && <RGBInput
               hex={hex}
               handleChange={this.handleRgbChange}
-              theme={palette}
+              theme={defaultTheme.light}
             />}
 
             <AlphaInput
               a={alpha * 100}
               handleChangeAlpha={this.handleChangeAlpha}
-              theme={palette}
+              theme={defaultTheme.light}
             />
           </div>
         </div>

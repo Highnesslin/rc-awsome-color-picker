@@ -7,7 +7,7 @@ const App = function () {
   const [color, setColor] = useState('')
 
   return (
-    <ColorPicker headerText='颜色选择器' value={color} onChange={setColor} />
+    <ColorPicker headerTitle='颜色选择器' value={color} onChange={setColor} />
   )
 }
 

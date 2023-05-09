@@ -13,7 +13,7 @@ interface State {
 }
 type Reducer = (prevState: State, action: Partial<State>) => State
 
-const ColorPicker: FC<ColorPickerProps> = ({ value, onChange, style, ...rest }) => {
+const ColorPicker: FC<ColorPickerProps> = ({ value, onChange, onClose, style, ...rest }) => {
   const [state, setState] = useReducer<Reducer>((s, action) => ({ ...s, ...action }), {
     visible: false,
     color: value,
@@ -40,7 +40,10 @@ const ColorPicker: FC<ColorPickerProps> = ({ value, onChange, style, ...rest }) 
     onChange && onChange(color)
   }
 
-  const handleClose = () => setState({ visible: false })
+  const handleClose: ColorPickerProps['onClose'] = e => {
+    onClose && onClose(e)
+    setState({ visible: false })
+  }
 
   const val = value || color
 
