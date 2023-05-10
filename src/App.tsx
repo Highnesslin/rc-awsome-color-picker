@@ -7,7 +7,10 @@ const App = function () {
   const [color, setColor] = useState('')
 
   return (
-    <ColorPicker headerTitle='颜色选择器' value={color} onChange={setColor} />
+    <div style={{ display: 'flex', alignItems: 'center', margin: 100 }}>
+      <span style={{ marginRight: 6, fontSize: 12 }}>颜色</span>
+      <ColorPicker headerTitle='' />
+    </div>
   )
 }
 

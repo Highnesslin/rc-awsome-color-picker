@@ -1,6 +1,11 @@
-export enum MODE {
+export enum INPUT_MODE {
   HEX = 'Hex',
   RGB = 'Rgb'
+}
+
+export enum SELECT_MODE {
+  PALETTE = 'palette',
+  PRESET = 'preset',
 }
 
 export const TRANSPARENT = 'transparent'

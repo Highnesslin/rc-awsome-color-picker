@@ -1,9 +1,12 @@
 import styled from 'styled-components'
 
 export const StyledTrigger = styled.div`
+  display: inline-block;
   width: 12px;
   height: 12px;
-  border: 1px solid #333;
+  border: 1px solid rgba(0, 0, 0, 0.17);
+  border-radius: 1px;
+  cursor: pointer;
 `
 
 export const StyledColorPicker = styled.div`
@@ -26,18 +29,10 @@ export const StyledColorPicker = styled.div`
     outline: none;
   }
 
-  .header-text {
-    font-size: 12px;
-    line-height: 1;
-    font-weight: normal;
-  }
-
   .input-section {
     display: flex;
-    // justify-content: space-between;
     padding-right: 1px;
     margin-top: 10px;
-    margin-bottom: 12px;
     height: 26px;
     line-height: 26px;
 
@@ -71,11 +66,25 @@ export const StyledColorPicker = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 10px 14px;
+    padding: 12px 10px 12px;
+    height: 40px;
+    border-bottom: 1px solid rgba(51, 51, 51, 0.05);
+
+    .header-text {
+      display: flex;
+      font-size: 12px;
+      line-height: 1;
+      font-weight: normal;
+
+      .header-icon {
+        margin-right: 6px;
+        backgroundColor: #0af;
+        cursor: pointer;
+      }
+    }
 
     .icon {
       box-sizing: content-box;
-      width: 10px;
       cursor: pointer;
 
       path {
@@ -89,7 +98,94 @@ export const StyledColorPicker = styled.div`
   }
 
   .color-picker-body {
-    padding: 0 10px;
+    padding: 12px 15px;
+  }
+  
+
+  .row {
+    display: flex;
+    align-items: center;
+  }
+
+  .outside-color-picker-btn {
+    width: 24px;
+    height: 24px;
+    margin-top: 8px;
+    margin-right: 8px;
+    cursor: pointer;
+    background-color: ${props => props.theme.icon.piker.bg};
+    // border: 1px solid ${props => props.theme.icon.piker.border};
+    border-radius: 2px;
+    // box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.12);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .system-color-picker-wrapper {
+      path {
+        fill: ${props => props.theme.lightTc};
+      }
+    }
+  }
+
+  .h-band,
+  .a-band {
+    position: relative;
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    border-radius: 999px;
+    cursor: pointer;
+    background-clip: padding-box;
+
+    .rail {
+      position: absolute;
+      top: 1px;
+      bottom: 1px;
+      left: calc(5px / 2 + 1px);
+      right: calc(5px / 2 + 1px);
+    }
+
+    .color-rail {
+      height: calc(100% - 8px);
+      top: 0;
+      bottom: 0;
+      margin: auto;
+    }
+
+    .alpha-slider,
+    .color-slider {
+      position: absolute;
+      top: -3px;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      border: 2px solid #fff;
+      background: transparent;
+      box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.5);
+    }
+
+    .alpha-slider {
+      margin-top: 0;
+      margin-left: -6px;
+    }
+
+    .color-slider {
+      margin-top: -6px;
+      margin-left: -5px;
+    }
+  }
+
+  .a-band {
+    flex: 1;
+    margin-top: 8px;
+    margin-right: 8px;
+    height: 10px;
+    background-image:
+      linear-gradient(45deg, #ccc 25%, transparent 25%),
+      linear-gradient(-45deg, #ccc 25%, transparent 25%),
+      linear-gradient(45deg, transparent 75%, #ccc 75%),
+      linear-gradient(-45deg, transparent 75%, #ccc 75%);
+    background-size: 6px 6px;
+    background-position: 0 0, 0 3px, 3px -3px, -3px 0;
   }
 `
 
@@ -226,93 +322,78 @@ export const StyledHSVPicker = styled.div`
       filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00000000', endColorstr='#000000',GradientType=0 );
     }
   }
+`
 
-  .row {
+export const StyledTabLine = styled.div`
+  color: rgb(51, 51, 51);
+  margin-bottom: 8px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+
+  .tabs {
     display: flex;
+    justify-content: space-between;
     align-items: center;
-  }
+    width: 54px;
+    height: 26px;
+    border-radius: 4px;
+    background: rgb(242, 242, 242);
+    overflow: hidden;
 
-  .outside-color-picker-btn {
-    width: 24px;
-    height: 24px;
-    margin-top: 8px;
-    margin-right: 8px;
-    cursor: pointer;
-    background-color: ${props => props.theme.icon.piker.bg};
-    // border: 1px solid ${props => props.theme.icon.piker.border};
-    border-radius: 2px;
-    // box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.12);
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    & > div {
+      width: 27px;
+      height: 22px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      overflow: hidden;
+      margin: 2px;
+      border-radius: 4px;
 
-    .system-color-picker-wrapper {
-      path {
-        fill: ${props => props.theme.lightTc};
+      &.selected {
+        background: rgb(255, 255, 255);
+        filter: drop-shadow(rgba(0, 0, 0, 0.2) 0px 0px 4px);
       }
     }
   }
+`
 
-  // .a-band {
-  // }
+export const StyledColorPreset = styled.div`
+  width: 226px;
+  height: 122px;
+  font-size: 0px;
+  line-height: 0;
+  margin-bottom: 8px;
 
-  .h-band,
-  .a-band {
-    position: relative;
-    border: 1px solid rgba(0, 0, 0, 0.12);
-    border-radius: 999px;
-    cursor: pointer;
-    background-clip: padding-box;
-
-    .rail {
-      position: absolute;
-      top: 1px;
-      bottom: 1px;
-      left: calc(5px / 2 + 1px);
-      right: calc(5px / 2 + 1px);
-    }
-
-    .color-rail {
-      height: calc(100% - 8px);
-      top: 0;
-      bottom: 0;
-      margin: auto;
-    }
-
-    .alpha-slider,
-    .color-slider {
-      position: absolute;
-      top: -3px;
-      width: 12px;
-      height: 12px;
-      border-radius: 50%;
-      border: 2px solid #fff;
-      background: transparent;
-      box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.5);
-    }
-
-    .alpha-slider {
-      margin-top: 0;
-      margin-left: -6px;
-    }
-
-    .color-slider {
-      margin-top: -6px;
-      margin-left: -5px;
-    }
-  }
-
-  .a-band {
-    flex: 1;
-    margin-top: 8px;
+  & > div {
+    width: 18px;
+    height: 18px;
+    border-radius: 2px;
+    display: inline-block;
     margin-right: 8px;
-    height: 10px;
-    background-image:
-      linear-gradient(45deg, #ccc 25%, transparent 25%),
-      linear-gradient(-45deg, #ccc 25%, transparent 25%),
-      linear-gradient(45deg, transparent 75%, #ccc 75%),
-      linear-gradient(-45deg, transparent 75%, #ccc 75%);
-    background-size: 6px 6px;
-    background-position: 0 0, 0 3px, 3px -3px, -3px 0;
+    margin-bottom: 8px;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    cursor: pointer;
+    position: relative;
+
+    &:nth-child(9n) {
+      margin-right: 0;
+    }
+
+    &.active::after {
+      content: "";
+      position: absolute;
+      left: -2px;
+      top: -2px;
+      width: 20px;
+      height: 20px;
+      border: 1px solid rgb(41, 141, 248);
+      border-radius: 2px;
+      box-sizing: border-box;
+    }
   }
+}
 `

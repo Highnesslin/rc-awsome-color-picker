@@ -19,7 +19,7 @@ import { ColorPicker } from 'rc-awsome-color-picker'
 const App = function () {
   const [color, setColor] = useState('')
 
-  return <ColorPicker headerText='颜色选择器' color={color} onChange={setColor} />
+  return <ColorPicker headerTitle='颜色选择器' color={color} onChange={setColor} />
 }
 
 export default App

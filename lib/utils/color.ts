@@ -80,16 +80,35 @@ export const rgb2hsv = ({ r, g, b }: { r: number; g: number; b: number }) => {
   };
 };
 
+/**
+ * Ensure that the length of hex is 6
+ * @param hex 
+ */
+export const normalizeHexValue = (hex: string) => {
+  // let _hex = hex.match(/^#/) ? hex : `#${hex}`;
+  let _hex = hex.replace(/^#/, '');
+
+  if (_hex.length === 3) {
+    _hex = _hex[0] + _hex[0] + _hex[1] + _hex[1] + _hex[2] + _hex[2];
+  }
+
+  return _hex.toUpperCase()
+}
+
 export const hex2rgb = (hex: string) => {
   if (hex.toLowerCase() === TRANSPARENT) {
     return { r: 255, g: 255, b: 255 };
   } else {
-    const _hex = hex.replace(/^#/, '');
+    let _hex = hex.replace(/^#/, '');
+
+    if (_hex.length === 3) {
+      _hex = _hex[0] + _hex[0] + _hex[1] + _hex[1] + _hex[2] + _hex[2];
+    }
 
     return {
-      r: parseInt(_hex.substr(0, 2), 16),
-      g: parseInt(_hex.substr(2, 2), 16),
-      b: parseInt(_hex.substr(4, 2), 16),
+      r: parseInt(_hex.substring(0, 2), 16),
+      g: parseInt(_hex.substring(2, 4), 16),
+      b: parseInt(_hex.substring(4, 6), 16)
     };
   }
 };

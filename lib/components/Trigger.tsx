@@ -1,6 +1,7 @@
-import { FC, MouseEventHandler, useReducer } from 'react'
-import AwsomeColorPicker, { ColorPickerProps } from './ColorPlane'
+import { FC, MouseEventHandler, useReducer, useRef } from 'react'
 import { createPortal } from 'react-dom'
+import { useClickAway, useKeyPress } from 'ahooks'
+import AwsomeColorPicker, { ColorPickerProps } from './ColorPlane'
 import { StyledTrigger } from '../styles'
 
 interface State {
@@ -13,7 +14,7 @@ interface State {
 }
 type Reducer = (prevState: State, action: Partial<State>) => State
 
-const ColorPicker: FC<ColorPickerProps> = ({ value, onChange, onClose, style, ...rest }) => {
+const Trigger: FC<ColorPickerProps> = ({ value, onChange, onClose, style, ...rest }) => {
   const [state, setState] = useReducer<Reducer>((s, action) => ({ ...s, ...action }), {
     visible: false,
     color: value,
@@ -22,6 +23,7 @@ const ColorPicker: FC<ColorPickerProps> = ({ value, onChange, onClose, style, ..
       t: 0
     }
   })
+  const trigger = useRef<HTMLDivElement>(null)
 
   const { visible, color, position } = state
 
@@ -35,28 +37,33 @@ const ColorPicker: FC<ColorPickerProps> = ({ value, onChange, onClose, style, ..
       visible: !visible
     })
   }
+
   const handleChange = (color: string) => {
     setState({ color })
     onChange && onChange(color)
   }
 
-  const handleClose: ColorPickerProps['onClose'] = e => {
-    onClose && onClose(e)
+  const handleClose: ColorPickerProps['onClose'] = () => {
+    onClose && onClose()
     setState({ visible: false })
   }
+
+  useClickAway(handleClose, trigger)
+
+  useKeyPress(['esc'], handleClose)
 
   const val = value || color
 
   return (
     <>
-      <StyledTrigger onClick={handleShow} className='rc-awsome-color-picker-trigger' style={{ backgroundColor: val }} />
+      <StyledTrigger ref={trigger} onClick={handleShow} className='rc-awsome-color-picker-trigger' style={{ backgroundColor: val, ...style }} />
       {visible &&
         createPortal(
-          <AwsomeColorPicker style={{ ...style, left: position.x, top: position.t }} value={val || ''} onChange={handleChange} onClose={handleClose} {...rest} />,
+          <AwsomeColorPicker style={{ left: position.x, top: position.t }} value={val || ''} onChange={handleChange} onClose={handleClose} {...rest} />,
           document.body
         )}
     </>
   )
 }
 
-export default ColorPicker
+export default Trigger

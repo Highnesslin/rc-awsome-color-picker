@@ -1,7 +1,7 @@
 {
   "name": "rc-awsome-color-picker",
   "description": "A React component that enables to pick color through HSV/HEX/RGBA, and call up the EyeDropper.",
-  "version": "0.0.12",
+  "version": "0.0.16",
   "keywords": [
     "react",
     "color picker",
@@ -34,6 +34,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "ahooks": "^3.7.7",
     "styled-components": "6.0.0-rc.1"
   },
   "peerDependencies": {
