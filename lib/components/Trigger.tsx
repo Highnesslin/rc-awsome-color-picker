@@ -1,7 +1,7 @@
 import { FC, MouseEventHandler, useReducer, useRef } from 'react'
 import { createPortal } from 'react-dom'
 import { useClickAway, useKeyPress } from 'ahooks'
-import AwsomeColorPicker, { ColorPickerProps } from './ColorPlane'
+import ColorPlane, { ColorPickerProps } from './ColorPlane'
 import { StyledTrigger } from '../styles'
 
 interface State {
@@ -59,7 +59,7 @@ const Trigger: FC<ColorPickerProps> = ({ value, onChange, onClose, style, ...res
       <StyledTrigger ref={trigger} onClick={handleShow} className='rc-awsome-color-picker-trigger' style={{ backgroundColor: val, ...style }} />
       {visible &&
         createPortal(
-          <AwsomeColorPicker style={{ left: position.x, top: position.t }} value={val || ''} onChange={handleChange} onClose={handleClose} {...rest} />,
+          <ColorPlane style={{ left: position.x, top: position.t }} value={val || ''} onChange={handleChange} onClose={handleClose} {...rest} />,
           document.body
         )}
     </>

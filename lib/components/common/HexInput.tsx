@@ -1,8 +1,8 @@
 import React, { PureComponent } from 'react';
 import { DefaultTheme } from 'styled-components';
-import { format3DigitValue } from '../utils/color';
-import { STANDARD_TRANSPARENT, TRANSPARENT } from '../const';
-import { StyledRGBInput } from '../styles';
+import { format3DigitValue } from '../../utils/color';
+import { STANDARD_TRANSPARENT, TRANSPARENT } from '../../const';
+import { StyledRGBInput } from '../../styles';
 
 interface Props {
   hexValue: string;

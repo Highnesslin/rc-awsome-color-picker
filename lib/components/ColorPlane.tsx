@@ -1,16 +1,17 @@
 import React, { HTMLAttributes } from 'react';
-import HSVPicker from './HSVPicker';
-import RGBInput from './RGBInput';
-import HexInput from './HexInput';
-import AlphaInput from './AlphaInput';
-import ColorSucker from './ColorSucker';
-import TabLine from './TabLine';
-import { hex2rgbaStr, normalizeHexValue, parseColor, rgb2hex } from '../utils/color';
+import TabLine from './common/TabLine';
+import Layout, { KEY } from './common/Layout';
+import RGBInput from './common/RGBInput';
+import HexInput from './common/HexInput';
+import HSVPicker from './common/HSVPicker';
+import AlphaInput from './common/AlphaInput';
+import ColorSucker from './common/ColorSucker';
+import ColorPreset from './common/ColorPreset';
+import AlphSlider from './common/AlphaSlider';
 import { stopReactEventPropagation } from '../utils/DOM';
+import { hex2rgbaStr, normalizeHexValue, parseColor, rgb2hex } from '../utils/color';
 import { INPUT_MODE, SELECT_MODE, STANDARD_TRANSPARENT, TRANSPARENT } from '../const';
 import { StyledColorPicker } from '../styles';
-import ColorPreset from './ColorPreset';
-import AlphSlider from './AlphaSlider';
 
 const defaultTheme = {
   light: {
@@ -104,7 +105,7 @@ export default class ColorPlane extends React.PureComponent<ColorPickerProps, St
   };
 
   hsvChange = ({ hex, a }: { hex?: string; a?: number }) => {
-    if (!this.props.onChange) return
+    if (!this.props.onChange) return;
 
     const { hex: propsHex } = parseColor(this.props.value || '');
     if (!hex) hex = this.state.hex;
@@ -120,7 +121,7 @@ export default class ColorPlane extends React.PureComponent<ColorPickerProps, St
   };
 
   hsvConfirm = ({ hex, a }: { hex?: string; a?: number }) => {
-    if (!this.props.onChange) return
+    if (!this.props.onChange) return;
 
     const { hex: propsHex } = parseColor(this.props.value || '');
     if (!hex) hex = this.state.hex;
@@ -156,144 +157,72 @@ export default class ColorPlane extends React.PureComponent<ColorPickerProps, St
         onClick={stopReactEventPropagation}
         theme={defaultTheme.light}
       >
-        <header className='color-picker-header'>
-          <div className='header-text'>
-            {headerTitle || (
-              <>
-                <div className='header-icon' title='纯色填充'>
-                  <svg width='16' height='16' xmlns='http://www.w3.org/2000/svg'>
-                    <circle
-                      cx='8'
-                      cy='8'
-                      r='7.5'
-                      fill='#1684fc'
-                      stroke='#1684fc'
-                      strokeWidth='1px'
-                      fillRule='evenodd'
-                      fillOpacity='.54'
-                    ></circle>
-                  </svg>
-                </div>
-                <div className='header-icon' title='线性渐变'>
-                  <svg width='16' height='16' xmlns='http://www.w3.org/2000/svg'>
-                    <defs>
-                      <linearGradient x1='50%' y1='39.897%' x2='50%' y2='81.179%' id='LINEAR_ICON'>
-                        <stop stopColor='#f9f9f9' offset='0%'></stop>
-                        <stop stopColor='#939393' offset='100%'></stop>
-                      </linearGradient>
-                    </defs>
-                    <circle
-                      cx='32'
-                      cy='8'
-                      r='7.5'
-                      transform='translate(-24)'
-                      fill='url(#LINEAR_ICON)'
-                      stroke='#6c6c6c'
-                      strokeWidth='0.5px'
-                      fillRule='evenodd'
-                    ></circle>
-                  </svg>
-                </div>
-                <div className='header-icon' title='径向渐变'>
-                  <svg width='16' height='16' xmlns='http://www.w3.org/2000/svg'>
-                    <defs>
-                      <radialGradient cx='50%' cy='50%' fx='50%' fy='50%' r='50%' id='RADIAL_ICON'>
-                        <stop stopColor='#ffffff' offset='0%'></stop>
-                        <stop stopColor='#ffffff' offset='37.844%'></stop>
-                        <stop stopColor='#a0a0a0' offset='100%'></stop>
-                      </radialGradient>
-                    </defs>
-                    <circle
-                      cx='56'
-                      cy='8'
-                      r='7.5'
-                      transform='translate(-48)'
-                      fill='url(#RADIAL_ICON)'
-                      stroke='#6c6c6c'
-                      strokeWidth='0.5px'
-                      fillRule='evenodd'
-                    ></circle>
-                  </svg>
-                </div>
-              </>
-            )}
-          </div>
-          {onClose && (
-            <svg
-              onMouseDown={onClose}
-              className='icon'
-              width='12'
-              height='12'
-              viewBox='0 0 10 10'
-              xmlns='http://www.w3.org/2000/svg'
-            >
-              <path
-                d='M5.95 4.536l2.828 2.828a1 1 0 0 1-1.414 1.414L4.536 5.95 1.707 8.778A1 1 0 0 1 .293 7.364L3.12 4.536.293 1.707A1 1 0 0 1 1.707.293L4.536 3.12 7.364.293a1 1 0 0 1 1.414 1.414L5.95 4.536z'
-                fill='#B8BCBF'
-                fillRule='evenodd'
-              />
-            </svg>
-          )}
-        </header>
+        <Layout headerTitle={headerTitle} onClose={onClose}>
+          {key => (
+            <div className='color-picker-body'>
+              {key === KEY.LINEAR && <span>线性渐变</span>}
 
-        <div className='color-picker-body'>
-          <TabLine value={selectMode} onChange={this.handleSelectMode} />
+              {key === KEY.RADIAL && <span>径向渐变</span>}
 
-          {selectMode === SELECT_MODE.PALETTE ? (
-            <HSVPicker
-              hex={hex}
-              onChange={this.hsvChange}
-              onConfirm={this.hsvConfirm}
-              theme={defaultTheme.light}
-            />
-          ) : SELECT_MODE.PRESET ? (
-            <ColorPreset value={hexValue} onChange={this.hsvChange} />
-          ) : null}
+              <TabLine value={selectMode} onChange={this.handleSelectMode} />
 
-          {/* 吸管 透明度选择器 */}
-          <div className='row'>
-            <div className='outside-color-picker-btn'>
-              <ColorSucker onSucker={this.handleHexChange} />
+              {selectMode === SELECT_MODE.PALETTE ? (
+                <HSVPicker
+                  hex={hex}
+                  onChange={this.hsvChange}
+                  onConfirm={this.hsvConfirm}
+                  theme={defaultTheme.light}
+                />
+              ) : SELECT_MODE.PRESET ? (
+                <ColorPreset value={hexValue} onChange={this.hsvChange} />
+              ) : null}
+
+              {/* 吸管 透明度选择器 */}
+              <div className='row'>
+                <div className='outside-color-picker-btn'>
+                  <ColorSucker onSucker={this.handleHexChange} />
+                </div>
+
+                <AlphSlider
+                  hex={hex}
+                  alpha={alpha}
+                  onChange={this.hsvChange}
+                  onConfirm={this.hsvConfirm}
+                />
+              </div>
+
+              {/* 颜色输入器 */}
+              <div className='input-section'>
+                <select className='text' value={inputMode} onChange={this.handleChangeMode}>
+                  <option>{INPUT_MODE.HEX}</option>
+                  <option>{INPUT_MODE.RGB}</option>
+                </select>
+
+                {inputMode === INPUT_MODE.HEX && (
+                  <HexInput
+                    hexValue={hexValue}
+                    handleChange={this.handleHexChange}
+                    theme={defaultTheme.light}
+                  />
+                )}
+
+                {inputMode === INPUT_MODE.RGB && (
+                  <RGBInput
+                    hex={hexValue}
+                    handleChange={this.handleRgbChange}
+                    theme={defaultTheme.light}
+                  />
+                )}
+
+                <AlphaInput
+                  a={alpha * 100}
+                  handleChangeAlpha={this.handleChangeAlpha}
+                  theme={defaultTheme.light}
+                />
+              </div>
             </div>
-
-            <AlphSlider
-              hex={hex}
-              alpha={alpha}
-              onChange={this.hsvChange}
-              onConfirm={this.hsvConfirm}
-            />
-          </div>
-
-          {/* 颜色输入器 */}
-          <div className='input-section'>
-            <select className='text' value={inputMode} onChange={this.handleChangeMode}>
-              <option>{INPUT_MODE.HEX}</option>
-              <option>{INPUT_MODE.RGB}</option>
-            </select>
-
-            {inputMode === INPUT_MODE.HEX && (
-              <HexInput
-                hexValue={hexValue}
-                handleChange={this.handleHexChange}
-                theme={defaultTheme.light}
-              />
-            )}
-
-            {inputMode === INPUT_MODE.RGB && (
-              <RGBInput
-                hex={hexValue}
-                handleChange={this.handleRgbChange}
-                theme={defaultTheme.light}
-              />
-            )}
-
-            <AlphaInput
-              a={alpha * 100}
-              handleChangeAlpha={this.handleChangeAlpha}
-              theme={defaultTheme.light}
-            />
-          </div>
-        </div>
+          )}
+        </Layout>
       </StyledColorPicker>
     );
   }

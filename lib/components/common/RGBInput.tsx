@@ -1,8 +1,8 @@
 import React, { PureComponent } from 'react'
 import { DefaultTheme } from 'styled-components'
-import { hex2rgb } from '../utils/color'
-import { TRANSPARENT } from '../const'
-import { StyledRGBInput } from '../styles'
+import { hex2rgb } from '../../utils/color'
+import { TRANSPARENT } from '../../const'
+import { StyledRGBInput } from '../../styles'
 
 interface Props {
   hex: string,

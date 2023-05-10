@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react'
 import { DefaultTheme } from 'styled-components'
-import { StyledRGBInput } from '../styles'
+import { StyledRGBInput } from '../../styles'
 
 interface Props {
   a: number,

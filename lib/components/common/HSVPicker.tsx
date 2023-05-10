@@ -1,9 +1,9 @@
 import React, { PureComponent } from 'react';
 import { DefaultTheme } from 'styled-components';
-import { rgb2hsv, hex2rgb, hsv2rgb, rgb2hex } from '../utils/color';
-import { stopReactEventPropagation } from '../utils/DOM';
-import { TRANSPARENT } from '../const';
-import { StyledHSVPicker } from '../styles';
+import { rgb2hsv, hex2rgb, hsv2rgb, rgb2hex } from '../../utils/color';
+import { stopReactEventPropagation } from '../../utils/DOM';
+import { TRANSPARENT } from '../../const';
+import { StyledHSVPicker } from '../../styles';
 
 interface Props {
   hex: string;

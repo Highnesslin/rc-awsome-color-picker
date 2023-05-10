@@ -2,6 +2,7 @@ import { defineConfig } from 'vite'
 import { resolve } from 'path'
 import react from '@vitejs/plugin-react'
 import typescript from '@rollup/plugin-typescript';
+import svgr from "vite-plugin-svgr";
 
 export default defineConfig({
   build: {
@@ -21,6 +22,7 @@ export default defineConfig({
     }
   },
   plugins: [
+    svgr(),
     react({
       jsxRuntime: 'automatic',
     }),

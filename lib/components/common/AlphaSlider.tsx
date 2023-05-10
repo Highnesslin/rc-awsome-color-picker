@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { stopReactEventPropagation } from '../utils/DOM';
+import { stopReactEventPropagation } from '../../utils/DOM';
 
 interface Props {
   hex: string;

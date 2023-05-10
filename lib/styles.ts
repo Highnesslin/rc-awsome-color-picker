@@ -15,7 +15,7 @@ export const StyledColorPicker = styled.div`
   color: ${props => props.theme.tc};
   background: ${props => props.theme.bgColor};
   border-radius: 4px;
-  box-shadow: 0 -2px 20px 0 rgba(39, 54, 78, 0.11);
+  box-shadow: 0 -2px 20px 0 rgba(39, 54, 78, 0.16);
   box-sizing: border-box;
   font-size: 12px;
   text-align: left;

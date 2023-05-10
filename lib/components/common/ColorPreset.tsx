@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { StyledColorPreset } from '../styles';
+import { StyledColorPreset } from '../../styles';
 
 const presets = [
   '#000000',

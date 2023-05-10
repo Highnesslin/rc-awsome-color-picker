@@ -1,6 +1,6 @@
-import { FC, useState } from 'react';
-import { SELECT_MODE } from '../const';
-import { StyledTabLine } from '../styles';
+import { FC } from 'react';
+import { SELECT_MODE } from '../../const';
+import { StyledTabLine } from '../../styles';
 
 const SELECT_TEXT = {
   [SELECT_MODE.PALETTE]: '色彩空间',
