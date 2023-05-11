@@ -2,7 +2,7 @@
 // referring to:
 // https://gist.github.com/mjackson/5311256
 
-import { TRANSPARENT } from "../const";
+import { TRANSPARENT } from "../utils/const";
 
 // Assumes:
 // h, s, and v in the set [0, 1]
@@ -131,6 +131,9 @@ const DEFAULT_COLOR = {
   alpha: 1
 }
 
+/**
+ * Ensure 'value' is hex
+ */
 export const parseColor = (c: string) => {
   const color = c.trim().toLowerCase() // keep lower cases hex in the component
   const rgbaExtractor = /^rgba?\((.*)\)$/

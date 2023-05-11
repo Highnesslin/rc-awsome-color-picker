@@ -1,12 +1,12 @@
 import React, { PureComponent } from 'react'
 import { DefaultTheme } from 'styled-components'
-import { hex2rgb } from '../../utils/color'
-import { TRANSPARENT } from '../../const'
+import { hex2rgb, rgb2hex } from '../../utils/color'
+import { TRANSPARENT } from '../../utils/const'
 import { StyledRGBInput } from '../../styles'
 
 interface Props {
   hex: string,
-  handleChange: (params: { r: number, g: number, b: number }) => void,
+  handleChange: (hex: string) => void,
   theme?: DefaultTheme
 }
 
@@ -82,7 +82,8 @@ export default class RGBInput extends PureComponent<Props, State> {
     if (!this._changedMannually) return
 
     const { r, g, b } = this.state
-    this.props.handleChange({ r, g, b })
+    const hex = rgb2hex({ r, g, b })
+    this.props.handleChange(hex)
   }
 
   handleBlur: React.FocusEventHandler<HTMLInputElement> = e => {

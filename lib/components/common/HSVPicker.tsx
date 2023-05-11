@@ -1,15 +1,14 @@
 import React, { PureComponent } from 'react';
 import { DefaultTheme } from 'styled-components';
 import { rgb2hsv, hex2rgb, hsv2rgb, rgb2hex } from '../../utils/color';
-import { stopReactEventPropagation } from '../../utils/DOM';
-import { TRANSPARENT } from '../../const';
+import { stopReactEventPropagation } from '../../utils/dom';
+import { TRANSPARENT } from '../../utils/const';
 import { StyledHSVPicker } from '../../styles';
 
 interface Props {
   hex: string;
   theme?: DefaultTheme;
-  onChange: (params: { a?: number; hex?: string }) => void;
-  onConfirm: (params: { a?: number; hex?: string }) => void;
+  onChange: (hex: string) => void;
 }
 
 interface State {
@@ -95,7 +94,7 @@ export default class HSVPicker extends PureComponent<Props, State> {
       changingFromInside: true,
     });
 
-    this.props.onChange({ hex });
+    this.props.onChange(hex);
 
     const onMouseMove = (e: MouseEvent) => {
       e.stopPropagation();
@@ -110,7 +109,7 @@ export default class HSVPicker extends PureComponent<Props, State> {
 
       this.setState({ h, s, v, hex });
 
-      this.props.onChange({ hex });
+      this.props.onChange(hex);
     };
 
     const onMouseUp = (e: MouseEvent) => {
@@ -124,7 +123,7 @@ export default class HSVPicker extends PureComponent<Props, State> {
       const hex = rgb2hex(hsv2rgb({ h, s, v }));
 
       this.setState({ h, s, v, hex });
-      this.props.onConfirm({ hex });
+      this.props.onChange(hex);
 
       this.setState({ changingFromInside: false });
     };
@@ -148,7 +147,7 @@ export default class HSVPicker extends PureComponent<Props, State> {
       changingFromInside: true,
     });
 
-    this.props.onChange({ hex });
+    this.props.onChange(hex);
 
     const onMouseMove = (e: MouseEvent) => {
       e.stopPropagation();
@@ -163,7 +162,7 @@ export default class HSVPicker extends PureComponent<Props, State> {
 
       this.setState({ h, s, v, hex });
 
-      this.props.onChange({ hex });
+      this.props.onChange(hex);
     };
 
     const onMouseUp = (e: MouseEvent) => {
@@ -177,7 +176,7 @@ export default class HSVPicker extends PureComponent<Props, State> {
       const hex = rgb2hex(hsv2rgb({ h, s, v }));
 
       this.setState({ h, s, v, hex });
-      this.props.onConfirm({ hex });
+      this.props.onChange(hex);
 
       this.setState({ changingFromInside: false });
     };

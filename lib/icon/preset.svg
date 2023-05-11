@@ -1,0 +1,11 @@
+<svg width='22' height='22' fill='none' xmlns='http://www.w3.org/2000/svg'>
+  <rect x='4.583' y='4.583' width='3.55' height='3.55' rx='.5' fill='#999'></rect>
+  <rect x='4.583' y='9.133' width='3.55' height='3.55' rx='.5' fill='#999'></rect>
+  <rect x='4.583' y='13.683' width='3.55' height='3.55' rx='.5' fill='#C4C4C4'></rect>
+  <rect x='9.225' y='4.583' width='3.55' height='3.55' rx='.5' fill='#999'></rect>
+  <rect x='9.225' y='9.133' width='3.55' height='3.55' rx='.5' fill='#666'></rect>
+  <rect x='9.225' y='13.683' width='3.55' height='3.55' rx='.5' fill='#999'></rect>
+  <rect x='13.867' y='4.583' width='3.55' height='3.55' rx='.5' fill='#C4C4C4'></rect>
+  <rect x='13.867' y='9.133' width='3.55' height='3.55' rx='.5' fill='#999'></rect>
+  <rect x='13.867' y='13.683' width='3.55' height='3.55' rx='.5' fill='#999'></rect>
+</svg>

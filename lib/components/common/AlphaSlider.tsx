@@ -1,11 +1,10 @@
 import React, { PureComponent } from 'react';
-import { stopReactEventPropagation } from '../../utils/DOM';
+import { stopReactEventPropagation } from '../../utils/dom';
 
 interface Props {
   hex: string;
   alpha: number;
-  onChange: (params: { a?: number; hex?: string }) => void;
-  onConfirm: (params: { a?: number; hex?: string }) => void;
+  onChange: (alpha: number) => void;
 }
 
 interface State {
@@ -41,7 +40,7 @@ export default class AlphSlider extends PureComponent<Props, State> {
 
     const { a } = this._getAValue(e.clientX);
 
-    this.props.onChange({ a });
+    this.props.onChange(a);
 
     const onMouseMove = (e: MouseEvent) => {
       e.stopPropagation();
@@ -52,7 +51,7 @@ export default class AlphSlider extends PureComponent<Props, State> {
 
       const { a } = this._getAValue(e.clientX);
 
-      this.props.onChange({ a });
+      this.props.onChange(a);
     };
 
     const onMouseUp = (e: MouseEvent) => {
@@ -64,7 +63,7 @@ export default class AlphSlider extends PureComponent<Props, State> {
       const { a } = this._getAValue(e.clientX);
 
       this.setState({ a });
-      this.props.onConfirm({ a });
+      this.props.onChange(a);
     };
 
     document.addEventListener('mousemove', onMouseMove);

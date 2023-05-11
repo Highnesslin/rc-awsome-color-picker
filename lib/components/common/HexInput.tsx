@@ -1,16 +1,16 @@
 import React, { PureComponent } from 'react';
 import { DefaultTheme } from 'styled-components';
 import { format3DigitValue } from '../../utils/color';
-import { STANDARD_TRANSPARENT, TRANSPARENT } from '../../const';
+import { STANDARD_TRANSPARENT, TRANSPARENT } from '../../utils/const';
 import { StyledRGBInput } from '../../styles';
 
 interface Props {
-  hexValue: string;
+  hex: string;
   handleChange: (hex: string) => void;
   theme?: DefaultTheme;
 }
 interface State {
-  hexValue?: string;
+  hex?: string;
   prevHexValueFromProps?: string;
 }
 export default class HexInput extends PureComponent<Props, State> {
@@ -21,16 +21,16 @@ export default class HexInput extends PureComponent<Props, State> {
   _changedMannually = false;
 
   state: State = {
-    // naming `hexValue` here cause we store the value without `#`
-    hexValue: undefined,
+    // naming `hex` here cause we store the value without `#`
+    hex: undefined,
     prevHexValueFromProps: undefined,
   };
 
   static getDerivedStateFromProps(props: Props, state: State) {
-    const propsValue = props.hexValue;
+    const propsValue = props.hex;
 
     if (propsValue !== state.prevHexValueFromProps) {
-      return { prevHexValueFromProps: propsValue, hexValue: propsValue };
+      return { prevHexValueFromProps: propsValue, hex: propsValue };
     } else {
       return null;
     }
@@ -59,27 +59,27 @@ export default class HexInput extends PureComponent<Props, State> {
       this._invalid = true;
     }
 
-    this.setState({ hexValue: value });
+    this.setState({ hex: value });
   };
 
   formatAndHandleChange = () => {
     if (!this._changedMannually) return;
 
-    const { hexValue } = this.state;
+    const { hex } = this.state;
 
-    if (hexValue && hexValue.length === 3) {
-      const formattedValue = format3DigitValue(hexValue);
-      this.setState({ hexValue: formattedValue });
+    if (hex && hex.length === 3) {
+      const formattedValue = format3DigitValue(hex);
+      this.setState({ hex: formattedValue });
       return formattedValue;
     } else {
-      this.props.handleChange(hexValue as string);
-      return hexValue;
+      this.props.handleChange(hex as string);
+      return hex;
     }
   };
 
   handleBlur = () => {
     if (this._invalid) {
-      this.setState({ hexValue: this._originalValueOfInput });
+      this.setState({ hex: this._originalValueOfInput });
     } else {
       this.formatAndHandleChange();
     }
@@ -92,7 +92,7 @@ export default class HexInput extends PureComponent<Props, State> {
     if (e.key !== 'Enter') return;
 
     if (this._invalid) {
-      this.setState({ hexValue: this._originalValueOfInput });
+      this.setState({ hex: this._originalValueOfInput });
     } else {
       const formattedValue = this.formatAndHandleChange();
       this._originalValueOfInput = formattedValue;
@@ -104,12 +104,12 @@ export default class HexInput extends PureComponent<Props, State> {
   };
 
   render() {
-    const { hexValue } = this.state;
+    const { hex } = this.state;
     const { theme } = this.props;
 
-    const inputValue = [undefined, null, STANDARD_TRANSPARENT, TRANSPARENT].includes(hexValue)
+    const inputValue = [undefined, null, STANDARD_TRANSPARENT, TRANSPARENT].includes(hex)
       ? 'FFFFFF'
-      : hexValue;
+      : hex;
 
     return (
       <StyledRGBInput className='color-input hex-input' theme={theme}>

@@ -30,7 +30,7 @@ const menus = [
 interface LayoutProps extends Omit<HTMLAttributes<HTMLHeadElement>, 'children'> {
   headerTitle?: string;
   onClose?: () => void;
-  children: (key: KEY) => ReactNode | undefined
+  children: (key: KEY) => ReactNode | null
 }
 
 const Header: FC<LayoutProps> = ({ headerTitle, onClose, children, ...rest }) => {

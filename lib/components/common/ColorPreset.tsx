@@ -50,7 +50,7 @@ const presets = [
 ].map(color => color.toUpperCase());
 interface Props {
   value: string;
-  onChange: (params: { hex?: string; a?: number }) => void;
+  onChange: (color: string) => void;
 }
 const ColorPreset: FC<Props> = ({ value, onChange }) => {
   return (
@@ -60,7 +60,7 @@ const ColorPreset: FC<Props> = ({ value, onChange }) => {
           key={hex}
           className={'#' + value === hex ? 'active' : ''}
           style={{ backgroundColor: hex }}
-          onClick={() => onChange({ hex })}
+          onClick={() => onChange(hex)}
         />
       ))}
     </StyledColorPreset>
