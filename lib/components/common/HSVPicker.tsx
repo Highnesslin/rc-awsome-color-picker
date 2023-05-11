@@ -1,8 +1,9 @@
 import React, { PureComponent } from 'react';
 import { DefaultTheme } from 'styled-components';
-import { rgb2hsv, hex2rgb, hsv2rgb, rgb2hex } from '../../utils/color';
-import { stopReactEventPropagation } from '../../utils/dom';
+import Slider from '../Slider/Slider';
 import { TRANSPARENT } from '../../utils/const';
+import { stopReactEventPropagation } from '../../utils/dom';
+import { rgb2hsv, hex2rgb, hsv2rgb, rgb2hex } from '../../utils/color';
 import { StyledHSVPicker } from '../../styles';
 
 interface Props {
@@ -20,7 +21,6 @@ interface State {
 }
 export default class HSVPicker extends PureComponent<Props, State> {
   $SVPlane!: HTMLElement;
-  $HBand!: HTMLDivElement;
   static getDerivedStateFromProps(props: Props, state: State) {
     if (!state.changingFromInside && props.hex !== state.hex && props.hex !== TRANSPARENT) {
       return {
@@ -30,7 +30,7 @@ export default class HSVPicker extends PureComponent<Props, State> {
       };
     }
 
-    return null
+    return null;
   }
 
   state: State = {
@@ -46,7 +46,6 @@ export default class HSVPicker extends PureComponent<Props, State> {
   };
 
   setSVPlaneRef: React.LegacyRef<HTMLElement> = ref => (this.$SVPlane = ref as HTMLElement);
-  setHBandRef: React.LegacyRef<HTMLDivElement> = ref => (this.$HBand = ref as HTMLDivElement);
 
   _getBaseHue = (h: number) => rgb2hex(hsv2rgb({ h, s: 1, v: 1 }));
 
@@ -65,16 +64,6 @@ export default class HSVPicker extends PureComponent<Props, State> {
     return {
       s: Math.min(1, Math.max(0, x - SVPlaneRect.left) / SVPlaneRect.width),
       v: 1 - Math.min(1, Math.max(0, y - SVPlaneRect.top) / SVPlaneRect.height),
-    };
-  };
-
-  _getHPointerStyle = (h: number) => ({ top: `${h * 100}%` });
-
-  _getHValue = (y: number) => {
-    const HBandRect = this.$HBand.getBoundingClientRect();
-
-    return {
-      h: Math.min(1, Math.max(0, y - HBandRect.top) / HBandRect.height),
     };
   };
 
@@ -132,57 +121,26 @@ export default class HSVPicker extends PureComponent<Props, State> {
     document.addEventListener('mouseup', onMouseUp);
   };
 
-  handleDragHBand: React.MouseEventHandler<HTMLDivElement> = e => {
-    stopReactEventPropagation(e);
-    e.preventDefault();
+  handleDragStart = (h: number) => {
+    this.handleDrag(h);
 
-    const { h } = this._getHValue(e.clientY);
-    const { s, v } = this.state;
-    const hex = rgb2hex(hsv2rgb({ h, s, v }));
     this.setState({
-      h,
-      s,
-      v,
-      hex,
       changingFromInside: true,
     });
+  };
+
+  handleDrag = (h: number) => {
+    const { s, v } = this.state;
+    const hex = rgb2hex(hsv2rgb({ h, s, v }));
+
+    this.setState({ h, s, v, hex });
 
     this.props.onChange(hex);
+  };
 
-    const onMouseMove = (e: MouseEvent) => {
-      e.stopPropagation();
-      e.stopImmediatePropagation();
-      e.preventDefault();
-
-      if (!this.$HBand) return;
-
-      const { h } = this._getHValue(e.clientY);
-      const { s, v } = this.state;
-      const hex = rgb2hex(hsv2rgb({ h, s, v }));
-
-      this.setState({ h, s, v, hex });
-
-      this.props.onChange(hex);
-    };
-
-    const onMouseUp = (e: MouseEvent) => {
-      document.removeEventListener('mousemove', onMouseMove);
-      document.removeEventListener('mouseup', onMouseUp);
-
-      if (!this.$HBand) return;
-
-      const { h } = this._getHValue(e.clientY);
-      const { s, v } = this.state;
-      const hex = rgb2hex(hsv2rgb({ h, s, v }));
-
-      this.setState({ h, s, v, hex });
-      this.props.onChange(hex);
-
-      this.setState({ changingFromInside: false });
-    };
-
-    document.addEventListener('mousemove', onMouseMove);
-    document.addEventListener('mouseup', onMouseUp);
+  handleDragEnd = (h: number) => {
+    this.handleDrag(h);
+    this.setState({ changingFromInside: false });
   };
 
   render() {
@@ -190,7 +148,6 @@ export default class HSVPicker extends PureComponent<Props, State> {
     const { theme } = this.props;
     const baseHue = this._getBaseHue(h);
     const SVPointerStyle = this._getSVPointerStyle(s, v);
-    const HPointerStyle = this._getHPointerStyle(h);
 
     return (
       <StyledHSVPicker className='hsv-picker' theme={theme}>
@@ -208,11 +165,14 @@ export default class HSVPicker extends PureComponent<Props, State> {
             <i className='pointer' style={SVPointerStyle} />
           </section>
           {/* 颜色滑动选择器 */}
-          <div className='h-band' onMouseDown={this.handleDragHBand}>
-            <div className='rail color-rail' ref={this.setHBandRef}>
-              <span className='color-slider' style={HPointerStyle} />
-            </div>
-          </div>
+          <Slider
+            className='color-slider'
+            mode='vertical'
+            value={h}
+            onDragStart={this.handleDragStart}
+            onDrag={this.handleDrag}
+            onDragEnd={this.handleDragEnd}
+          />
         </section>
       </StyledHSVPicker>
     );

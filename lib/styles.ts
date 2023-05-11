@@ -128,64 +128,14 @@ export const StyledColorPicker = styled.div`
     }
   }
 
-  .h-band,
-  .a-band {
-    position: relative;
-    border: 1px solid rgba(0, 0, 0, 0.12);
-    border-radius: 999px;
-    cursor: pointer;
-    background-clip: padding-box;
-
-    .rail {
-      position: absolute;
-      top: 1px;
-      bottom: 1px;
-      left: calc(5px / 2 + 1px);
-      right: calc(5px / 2 + 1px);
-    }
-
-    .color-rail {
-      height: calc(100% - 8px);
-      top: 0;
-      bottom: 0;
-      margin: auto;
-    }
-
-    .alpha-slider,
-    .color-slider {
-      position: absolute;
-      top: -3px;
-      width: 12px;
-      height: 12px;
-      border-radius: 50%;
-      border: 2px solid #fff;
-      background: transparent;
-      box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.5);
-    }
-
-    .alpha-slider {
-      margin-top: 0;
-      margin-left: -6px;
-    }
-
-    .color-slider {
-      margin-top: -6px;
-      margin-left: -5px;
-    }
-  }
-
-  .a-band {
-    flex: 1;
-    margin-top: 8px;
-    margin-right: 8px;
-    height: 10px;
-    background-image:
-      linear-gradient(45deg, #ccc 25%, transparent 25%),
-      linear-gradient(-45deg, #ccc 25%, transparent 25%),
-      linear-gradient(45deg, transparent 75%, #ccc 75%),
-      linear-gradient(-45deg, transparent 75%, #ccc 75%);
-    background-size: 6px 6px;
-    background-position: 0 0, 0 3px, 3px -3px, -3px 0;
+  .color-slider {
+    position: absolute;
+    width: 10px;
+    height: 100%;
+    right: 5px;
+    top: 0;
+    margin-bottom: 4px;
+    background-image: linear-gradient(to top, red, #ff0080, magenta, #8000ff, blue, #0080ff, cyan, #00ff80, lime, #80ff00, yellow, #ff8000, red);
   }
 `
 
@@ -256,18 +206,6 @@ export const StyledHSVPicker = styled.div`
   .color-plane {
     position: relative; 
     height: ${planeHeight};
-  }
-
-  .h-band {
-    position: absolute!important;
-    width: 10px;
-    height: ${planeHeight};
-    // transform: rotate(90deg) translateX(100%);
-    // transform-origin: top right;
-    right: 5px;
-    top: 0;
-    margin-bottom: 4px;
-    background-image: linear-gradient(to top, red, #ff0080, magenta, #8000ff, blue, #0080ff, cyan, #00ff80, lime, #80ff00, yellow, #ff8000, red);
   }
 
   .s-v-plane {
@@ -396,4 +334,68 @@ export const StyledColorPreset = styled.div`
     }
   }
 }
+`
+
+export const StyledSlider = styled.div`
+  position: relative;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: 999px;
+  cursor: pointer;
+  background-clip: padding-box;
+
+  &.vertical {
+    width: 10px;
+    height: 100%;
+    margin-bottom: 4px;
+
+    .pointer {
+      margin-top: -6px;
+      margin-left: -5px;
+    }
+  }
+
+  &.horizontal {
+    flex: 1;
+    margin-top: 8px;
+    margin-right: 8px;
+    height: 10px;
+    background-image:
+      linear-gradient(45deg, #ccc 25%, transparent 25%),
+      linear-gradient(-45deg, #ccc 25%, transparent 25%),
+      linear-gradient(45deg, transparent 75%, #ccc 75%),
+      linear-gradient(-45deg, transparent 75%, #ccc 75%);
+    background-size: 6px 6px;
+    background-position: 0 0, 0 3px, 3px -3px, -3px 0;
+
+    .pointer {
+      margin-top: -3px;
+      margin-left: -6px;
+    }
+  }
+
+  .rail {
+    position: absolute;
+    top: 1px;
+    bottom: 1px;
+    left: calc(5px / 2 + 1px);
+    right: calc(5px / 2 + 1px);
+  }
+
+  .color-rail {
+    height: calc(100% - 8px);
+    top: 0;
+    bottom: 0;
+    margin: auto;
+  }
+
+  .pointer {
+    position: absolute;
+    top: -3px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: 2px solid #fff;
+    background: transparent;
+    box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.5);
+  }
 `

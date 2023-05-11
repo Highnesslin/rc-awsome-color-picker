@@ -7,8 +7,9 @@ import HSVPicker from './common/HSVPicker';
 import AlphaInput from './common/AlphaInput';
 import ColorSucker from './common/ColorSucker';
 import ColorPreset from './common/ColorPreset';
-import AlphSlider from './common/AlphaSlider';
+import AlphaSlider from './common/AlphaSlider';
 import ColorInput from './ColorInput/ColorInput';
+import GradientLinear from './GradientLinear/GradientLinear';
 import { stopReactEventPropagation } from '../utils/dom';
 import { hex2rgbaStr, normalizeHexValue, parseColor } from '../utils/color';
 import {
@@ -60,7 +61,7 @@ export default class ColorPlane extends React.PureComponent<ColorPickerProps, St
     this.confirm({ hex, a: changeFromTransparent ? 1 : this.state.alpha });
   };
 
-  handleChangeAlpha = (a: number) => this.confirm({ hex: this.state.hex, a });
+  handleChangeAlpha = (a: number) => this.confirm({ hex: this.state.hex, a: Number(a.toFixed(2)) });
 
   confirm = ({ hex, a }: { hex?: string; a?: number }) => {
     if (!this.props.onChange) return;
@@ -94,7 +95,7 @@ export default class ColorPlane extends React.PureComponent<ColorPickerProps, St
           {key => (
             <div className='color-picker-body'>
               {key === KEY.LINEAR ? (
-                <span>线性渐变</span>
+                <GradientLinear />
               ) : key === KEY.RADIAL ? (
                 <span>径向渐变</span>
               ) : null}
@@ -119,7 +120,7 @@ export default class ColorPlane extends React.PureComponent<ColorPickerProps, St
                   <ColorSucker onSucker={this.handleHexChange} />
                 </div>
 
-                <AlphSlider hex={hex} alpha={alpha} onChange={this.handleChangeAlpha} />
+                <AlphaSlider hex={hex} value={alpha} onDrag={this.handleChangeAlpha} />
               </div>
 
               {/* 颜色输入器 */}
