@@ -1,12 +1,7 @@
 import { FC, ComponentType, HTMLAttributes, Suspense, createElement, useState, ReactNode } from 'react';
 import { ReactComponent as CloseIcon } from '@/icon/close.svg';
 import { RCIconProps } from '@/icon/interface';
-
-export enum KEY {
-  PURE = 'PURE',
-  LINEAR = 'LINEAR',
-  RADIAL = 'RADIAL',
-}
+import { KEY, checkColorType } from '@/utils/color';
 
 interface Menu {
   key: KEY
@@ -15,22 +10,17 @@ interface Menu {
   component: () => ReactNode
 }
 interface LayoutProps extends Omit<HTMLAttributes<HTMLHeadElement>, 'children'> {
+  value?: string
   menu: Menu[]
   headerTitle?: string;
   onClose?: () => void;
 }
 
-const Header: FC<LayoutProps> = ({ menu, headerTitle, onClose, ...rest }) => {
-  const [active, setActive] = useState<KEY>(KEY.PURE);
+const Header: FC<LayoutProps> = ({ menu, headerTitle, onClose, value, ...rest }) => {
+  const [active, setActive] = useState<KEY>(() => checkColorType(value || ''));
 
-  const renderMenu = menu.reduce<Menu['component'] | undefined>((result, ins) => {
-    if(ins.key === active) {
-      result = ins.component
-    }
-
-    return result
-  }, undefined)
-
+  const { component: renderMenu } = menu.find(ins => ins.key === active) || {}
+  
   return (
     <>
       <header className='color-picker-header' {...rest}>
