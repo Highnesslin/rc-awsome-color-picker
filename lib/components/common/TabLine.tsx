@@ -1,8 +1,8 @@
 import { FC, ReactNode, createElement, useState } from 'react';
-import { SELECT_MODE } from '../../utils/const';
-import { ReactComponent as paletteIcon } from '../../icon/palette.svg'
-import { ReactComponent as presetIcon } from '../../icon/preset.svg'
-import { StyledTabLine } from '../../styles';
+import { SELECT_MODE } from '@/utils/const';
+import { ReactComponent as paletteIcon } from '@/icon/palette.svg'
+import { ReactComponent as presetIcon } from '@/icon/preset.svg'
+import { StyledTabLine } from '@/styles';
 
 const SELECT_TEXT = {
   [SELECT_MODE.PALETTE]: '色彩空间',

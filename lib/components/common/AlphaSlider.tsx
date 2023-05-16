@@ -1,19 +1,15 @@
 import { FC } from 'react';
-import Slider, { SliderProps } from '../Slider/Slider';
+import Slider, { SliderProps } from './Slider/Slider';
 
-interface AlphaSliderProps extends Omit<SliderProps, 'mode'> {
+interface AlphaSliderProps extends Omit<SliderProps<number>, 'mode'> {
   hex: string;
 }
-// className='color-slider'
-// mode='vertical'
-// value={h}
-// onDragStart={this.handleDragStart}
-// onDrag={this.handleDrag}
-// onDragEnd={this.handleDragEnd}
+
 const AlphaSlider: FC<AlphaSliderProps> = ({ hex, value, ...rest }) => {
   return (
     <Slider
       mode='horizontal'
+      className='alpha-slider'
       value={value}
       {...rest}
       extra={

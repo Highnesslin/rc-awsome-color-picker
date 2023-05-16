@@ -105,12 +105,12 @@ export const StyledColorPicker = styled.div`
   .row {
     display: flex;
     align-items: center;
+    margin-top: 8px;
   }
 
   .outside-color-picker-btn {
     width: 24px;
     height: 24px;
-    margin-top: 8px;
     margin-right: 8px;
     cursor: pointer;
     background-color: ${props => props.theme.icon.piker.bg};
@@ -136,6 +136,10 @@ export const StyledColorPicker = styled.div`
     top: 0;
     margin-bottom: 4px;
     background-image: linear-gradient(to top, red, #ff0080, magenta, #8000ff, blue, #0080ff, cyan, #00ff80, lime, #80ff00, yellow, #ff8000, red);
+  }
+
+  .alpha-slider {
+    margin-right: 8px;
   }
 `
 
@@ -356,8 +360,6 @@ export const StyledSlider = styled.div`
 
   &.horizontal {
     flex: 1;
-    margin-top: 8px;
-    margin-right: 8px;
     height: 10px;
     background-image:
       linear-gradient(45deg, #ccc 25%, transparent 25%),
@@ -393,9 +395,45 @@ export const StyledSlider = styled.div`
     top: -3px;
     width: 12px;
     height: 12px;
-    border-radius: 50%;
-    border: 2px solid #fff;
     background: transparent;
-    box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.5);
+
+    &.default {
+      border-radius: 50%;
+      border: 2px solid #fff;
+      box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.5);
+
+      &.active {
+        box-shadow: rgb(153, 153, 153) 0px 0px 2px 0px, rgba(41, 141, 248, 0.8) 0px 0px 2px 2px;
+      }
+    }
+
+    &.active {
+      z-index: 999 !important;
+    }
+  }
+`
+
+export const StyledGradientLinear = styled.div`
+  .linear-slider {
+    height: 20px;
+    margin-bottom: 10px;
+    border-radius: 0;
+
+    .pointer-icon {
+      width: 15px;
+      height: 16px;
+      border-radius: 0;
+
+      // &.active {
+      //   svg {
+      //     box-shadow: rgb(153, 153, 153) 0px 0px 2px 0px, rgba(41, 141, 248, 0.8) 0px 0px 2px 2px;
+      //   }  
+      // }
+
+      svg {
+        width: 100%;
+        height: 100%;
+      }
+    } 
   }
 `

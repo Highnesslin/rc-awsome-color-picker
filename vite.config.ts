@@ -9,16 +9,25 @@ export default defineConfig({
     lib: {
       entry: resolve(__dirname, 'lib/index.tsx'),
       name: 'RcAwsomeColorPicker',
-      formats: ['es', 'cjs', 'iife'],
-      fileName: 'rc-awsome-color-picker'
+      formats: ['es', 'cjs'],
+      fileName: 'rc-awsome-color-picker',
     },
     rollupOptions: {
       external: ['react'],
       output: {
         globals: {
           react: 'React'
-        }
+        },
+        chunkFileNames: '[name].js'
       }
+    }
+  },
+  resolve: {
+    alias: {
+      "@": resolve(__dirname, './lib'),
+      "@components": resolve(__dirname, './lib/components'),
+      "@icon": resolve(__dirname, './lib/icon'),
+      "@utils": resolve(__dirname, './lib/utils'),
     }
   },
   plugins: [

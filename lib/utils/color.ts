@@ -171,5 +171,55 @@ export const parseColor = (c: string) => {
   }
 }
 
-
 export const format3DigitValue = (hex: string) => `${hex[0]}${hex[0]}${hex[1]}${hex[1]}${hex[2]}${hex[2]}`
+
+const gradientRegex = /^(linear-gradient)\((to [a-z]+), ?((rgba?\([\d\s.,]+\)|[#a-fA-F0-9])+ (\d+%)(, (rgba?\([\d\s.,]+\)|[#a-fA-F0-9])+ (\d+%))*)\)$/
+
+const colorAndPosRegx = /(rgba?\([^)]*\)|#[0-9a-fA-F]{3,6})\s+(\d+%)/g
+
+interface MatchLinearGradientRes {
+  linearColor: string
+  direction: string
+  colors: string[]
+  pos: number[]
+}
+export const matchLinearGradient = (gradientVal: string): MatchLinearGradientRes => {
+  const match = gradientVal.match(gradientRegex)
+  if (!match) {
+    gradientVal = 'linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgb(228, 255, 0) 10%, #dd3b3b 90%, rgba(255, 255, 255, 0) 100%)'
+    return matchLinearGradient(gradientVal)
+  }
+
+  const [, gradientType, direction, colorStopValues] = match
+  const colors: string[] = []
+  const stops: number[] = []
+
+  colorStopValues.replace(colorAndPosRegx, (_, color, percent) => {
+    colors.push(color);
+    stops.push(parseFloat(percent) / 100);
+
+    return ''
+  });
+
+  return {
+    // gradientType,
+    linearColor: gradientVal,
+    direction,
+    colors,
+    pos: stops
+  }
+}
+
+export const genLinearGradient = (param: Pick<MatchLinearGradientRes, 'colors' | 'direction' | 'pos'>) => {
+  const { direction, colors, pos } = param
+  
+  const linearVal = colors.reduce<string[]>((result, color, index) => {
+    const curPos = pos[index] * 100
+    const curColor = color
+
+    result.push(`${curColor} ${curPos}%`)
+    return result 
+  }, []).join(',')
+
+  return `linear-gradient(${direction}, ${linearVal})`
+}

@@ -48,7 +48,7 @@ const Trigger: FC<ColorPickerProps> = ({ value, onChange, onClose, style, ...res
     setState({ visible: false })
   }
 
-  useClickAway(handleClose, trigger)
+  useClickAway(handleClose, trigger, 'mousedown')
 
   useKeyPress(['esc'], handleClose)
 
@@ -56,7 +56,7 @@ const Trigger: FC<ColorPickerProps> = ({ value, onChange, onClose, style, ...res
 
   return (
     <>
-      <StyledTrigger ref={trigger} onClick={handleShow} className='rc-awsome-color-picker-trigger' style={{ backgroundColor: val, ...style }} />
+      <StyledTrigger ref={trigger} onClick={handleShow} className='rc-awsome-color-picker-trigger' style={{ background: val, ...style }} />
       {visible &&
         createPortal(
           <ColorPlane style={{ left: position.x, top: position.t }} value={val || ''} onChange={handleChange} onClose={handleClose} {...rest} />,

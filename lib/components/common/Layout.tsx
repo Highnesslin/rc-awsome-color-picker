@@ -1,62 +1,62 @@
-import { FC, HTMLAttributes, ReactNode, createElement, useState } from 'react';
-import { ReactComponent as CloseIcon } from '../../icon/close.svg';
-import PureIcon from '../../icon/pure';
-import LinearIcon from '../../icon/linear';
-import RadialIcon from '../../icon/radial';
+import { FC, ComponentType, HTMLAttributes, Suspense, createElement, useState, ReactNode } from 'react';
+import { ReactComponent as CloseIcon } from '@/icon/close.svg';
+import { RCIconProps } from '@/icon/interface';
 
 export enum KEY {
   PURE = 'PURE',
   LINEAR = 'LINEAR',
   RADIAL = 'RADIAL',
 }
-const menus = [
-  {
-    key: KEY.PURE,
-    title: '纯色填充',
-    icon: PureIcon,
-  },
-  {
-    key: KEY.LINEAR,
-    title: '线性渐变',
-    icon: LinearIcon,
-  },
-  {
-    key: KEY.RADIAL,
-    title: '径向渐变',
-    icon: RadialIcon,
-  },
-];
 
+interface Menu {
+  key: KEY
+  title: string
+  icon: ComponentType<RCIconProps>,
+  component: () => ReactNode
+}
 interface LayoutProps extends Omit<HTMLAttributes<HTMLHeadElement>, 'children'> {
+  menu: Menu[]
   headerTitle?: string;
   onClose?: () => void;
-  children: (key: KEY) => ReactNode | null
 }
 
-const Header: FC<LayoutProps> = ({ headerTitle, onClose, children, ...rest }) => {
+const Header: FC<LayoutProps> = ({ menu, headerTitle, onClose, ...rest }) => {
   const [active, setActive] = useState<KEY>(KEY.PURE);
+
+  const renderMenu = menu.reduce<Menu['component'] | undefined>((result, ins) => {
+    if(ins.key === active) {
+      result = ins.component
+    }
+
+    return result
+  }, undefined)
 
   return (
     <>
       <header className='color-picker-header' {...rest}>
         <div className='header-text'>
           {headerTitle ||
-            menus.map(menu => (
+            menu.map(item => (
               <div
-                key={menu.key}
+                key={item.key}
                 className='header-icon'
-                title={menu.title}
-                onClick={() => setActive(menu.key)}
+                title={item.title}
+                onClick={() => setActive(item.key)}
               >
-                {createElement(menu.icon, {
-                  active: menu.key === active,
+                {createElement(item.icon, {
+                  active: item.key === active,
                 })}
               </div>
             ))}
         </div>
         {onClose && <CloseIcon onMouseDown={onClose} className='icon' />}
       </header>
-      {children(active)}
+
+      <div className='color-picker-body'>
+        <Suspense fallback={<div>loading...</div>}>
+          {renderMenu && renderMenu()}
+        </Suspense>
+      </div>
     </>
   );
 };

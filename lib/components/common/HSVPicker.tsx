@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import { DefaultTheme } from 'styled-components';
-import Slider from '../Slider/Slider';
+import Slider from './Slider/Slider';
 import { TRANSPARENT } from '../../utils/const';
 import { stopReactEventPropagation } from '../../utils/dom';
 import { rgb2hsv, hex2rgb, hsv2rgb, rgb2hex } from '../../utils/color';

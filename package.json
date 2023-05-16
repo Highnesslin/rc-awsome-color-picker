@@ -1,7 +1,7 @@
 {
   "name": "rc-awsome-color-picker",
   "description": "A React component that enables to pick color through HSV/HEX/RGBA, and call up the EyeDropper.",
-  "version": "0.0.16",
+  "version": "0.1.1",
   "keywords": [
     "react",
     "color picker",
