@@ -4,7 +4,7 @@ export const StyledTrigger = styled.div`
   display: inline-block;
   width: 12px;
   height: 12px;
-  border: 1px solid rgba(0, 0, 0, 0.17);
+  border: 1px solid rgb(241, 241, 241);
   border-radius: 1px;
   cursor: pointer;
 `
