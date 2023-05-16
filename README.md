@@ -2,6 +2,10 @@
 
 基于 [mb-react-color-picker](https://github.com/mockingbot/mb-color-picker)二次开发
 
+![preview](https://yun.dui88.com/tuia-fed/assets/linear.jpg)
+
+![preview](https://yun.dui88.com/tuia-fed/assets/pure.jpg)
+
 ## Install
 
 ```bash
@@ -9,8 +13,6 @@ npm i rc-awsome-color-picker
 ```
 
 ## Usage
-
-![preview](https://yun.dui88.com/tuia-fed/assets/20230509153853.jpg)
 
 ```jsx
 import { useState } from 'react'
@@ -25,6 +27,12 @@ const App = function () {
 export default App
 
 ```
+
+## Feature
+
+1. Support EyeDropper
+
+2. Support GradientLinear
 
 ## About
   <!-- 

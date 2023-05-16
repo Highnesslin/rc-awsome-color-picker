@@ -14,28 +14,32 @@ interface State extends ReturnType<typeof matchLinearGradient> {
   linearColor: string,
 }
 const GradientLinear: FC<GradientLinearProps> = ({ value, onChange }) => {
-  const [state, setState] = useReducer<(p:State, n: Partial<State>) => State, string>((pre, next) => {
-    return {...pre, ...next}
-  }, value || '', (initial) => {
-    const {
-      linearColor,
-      direction,
-      colors,
-      pos
-    } = matchLinearGradient(initial)
+  const [state, setState] = useReducer<(p:State, n: Partial<State>) => State, string>(
+    (pre, next) => ({...pre, ...next}),
+    value || '',
+    initial => {
+      const {
+        linearColor,
+        direction,
+        colors,
+        pos
+      } = matchLinearGradient(initial)
 
-    return {
-      active: 0,
-      linearColor,
-      direction,
-      colors,
-      pos
+      // if (linearColor !== value && onChange) {
+      //   onChange(linearColor)
+      // }
+
+      return {
+        active: 0,
+        linearColor,
+        direction,
+        colors,
+        pos
+      }
     }
-  })
+  )
 
   const { active, linearColor, direction, colors, pos } = state
-
-  console.log('state', state)
 
   const handleChange = (pos: number[]) => {
     const nextLinearColor = genLinearGradient({
@@ -51,6 +55,7 @@ const GradientLinear: FC<GradientLinearProps> = ({ value, onChange }) => {
   }
 
   const handleActiveChange = (active: number) => setState({ active })
+
   const handleColorChange = (hex: string) => {
     const nextColors = colors.map((pre, index) => index === active ? hex : pre)
     const nextLinearColor = genLinearGradient({
@@ -75,7 +80,7 @@ const GradientLinear: FC<GradientLinearProps> = ({ value, onChange }) => {
         value={pos}
         onDrag={handleChange}
         onActiveChange={handleActiveChange}
-        pointerElement={LinearPointer}
+        renderPointer={(index, props) => <LinearPointer {...props}>{index + 1}</LinearPointer>}
         extra={
           <div
             style={{

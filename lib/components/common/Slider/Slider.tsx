@@ -2,13 +2,13 @@ import { CSSProperties, HTMLAttributes, MouseEvent, MouseEventHandler, ReactNode
 import { useReactive } from 'ahooks';
 import { stopReactEventPropagation } from '../../../utils/dom';
 import { StyledSlider } from '../../../styles';
-import Pointer, { PointerType } from './Pointer';
+import { PointerType } from './Pointer';
 
 export interface SliderProps<T extends number | number[]> extends Omit<HTMLAttributes<HTMLDivElement>, 'onDragStart' | 'onDrag' | 'onDragEnd'> {
   mode: 'horizontal' | 'vertical'
   value: T
   extra?: ReactNode
-  pointerElement?: PointerType
+  renderPointer?: PointerType
   onActiveChange?: (active: number) => void
   onDragStart?: (progress: T) => void;
   onDrag?: (progress: T) => void;
@@ -24,7 +24,7 @@ const normalize = <T extends number | number[]>(val: T): T => {
 
 const nor = (value: number | number[]) => Array.isArray(value) ? value : [value]
 
-const Slider = <T extends number | number[] = number> ({ mode, value, pointerElement, onActiveChange, onDragStart, onDrag, onDragEnd, className, extra, ...rest }: SliderProps<T>) => {
+const Slider = <T extends number | number[] = number> ({ mode, value, renderPointer, onActiveChange, onDragStart, onDrag, onDragEnd, className, extra, ...rest }: SliderProps<T>) => {
   const pointer = useRef<HTMLDivElement>(null)
   const state = useReactive({
     active: 0,
@@ -99,14 +99,18 @@ const Slider = <T extends number | number[] = number> ({ mode, value, pointerEle
       {extra}
       <div className='rail color-rail' ref={pointer}>
         {normalizeValue.map((num, index) => {
-          return (
-            <Pointer
-              key={index}
-              tag={pointerElement}
-              active={normalizeValue.length > 1 && state.active === index}
-              style={getStyle(num)}
-              onMouseDown={() => handleActiveChange(index)}
-            />
+          const commonProps ={
+            key: index,
+            style: getStyle(num),
+            onMouseDown: () => handleActiveChange(index),
+          }
+          return renderPointer ? (
+            renderPointer(index, Object.assign({
+              className: 'pointer',
+              active: normalizeValue.length > 1 && state.active === index,
+            }, commonProps))
+          ) : (
+            <span className={`pointer default`} {...commonProps}></span>
           )
         })}
       </div>

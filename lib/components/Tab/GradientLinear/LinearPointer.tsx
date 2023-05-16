@@ -1,12 +1,14 @@
-import { PointerType } from "@components/common/Slider/Pointer";
+import { FC } from "react";
 import LinearPointerIcon from '@icon/linearPointer'
+import { PointerProps } from "@/components/common/Slider/Pointer";
 
-const LinearPointer: PointerType = ({ className, active, ...rest }) => {
+const LinearPointer: FC<PointerProps> = ({ className, active, children, ...rest }) => {
   return (
     <div className={`${className} pointer-icon`} {...rest}>
       <LinearPointerIcon active={active} />
+      <span>{children}</span>
     </div>
   )
 }
  
-export default LinearPointer;
+export default LinearPointer

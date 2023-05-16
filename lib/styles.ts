@@ -420,8 +420,8 @@ export const StyledGradientLinear = styled.div`
     border-radius: 0;
 
     .pointer-icon {
-      width: 15px;
-      height: 16px;
+      width: 19px;
+      height: 19px;
       border-radius: 0;
 
       // &.active {
@@ -429,6 +429,15 @@ export const StyledGradientLinear = styled.div`
       //     box-shadow: rgb(153, 153, 153) 0px 0px 2px 0px, rgba(41, 141, 248, 0.8) 0px 0px 2px 2px;
       //   }  
       // }
+
+      span {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        text-align: center;
+        color: #fff;
+      }
 
       svg {
         width: 100%;

@@ -1,22 +1,22 @@
-import { HTMLAttributes, FunctionComponent, ComponentClass, ReactHTML, createElement } from "react";
+import { HTMLAttributes, FunctionComponent, ComponentClass, ReactHTML, createElement, ReactNode, ReactElement } from "react";
 
-interface PointerProps extends Pick<HTMLAttributes<HTMLElement>, 'className' | 'style' | 'onMouseDown'> {
-  tag?: PointerType
+export interface PointerProps extends Pick<HTMLAttributes<HTMLElement>, 'className' | 'style' | 'onMouseDown' | 'children'> {
   active?: boolean
 }
 
-export type PointerType = FunctionComponent<PointerProps> | ComponentClass<PointerProps> | keyof ReactHTML
+export type PointerType = (index: number, props: PointerProps) => ReactElement
+// FunctionComponent<PointerProps> | ComponentClass<PointerProps> | keyof ReactHTML
 
-const Pointer: PointerType = ({ tag, active, className = '', ...rest }) => {
-  return tag ? (
-    createElement(tag, {
-      className: `pointer ${className}`,
-      active,
-      ...rest
-    })
-  ) : (
-    <span className={`pointer default ${className}`} {...rest}></span>
-  )
-}
+// const Pointer: PointerType = (_, { tag, active, className = '', children, ...rest }) => {
+//   return tag ? (
+//     createElement(tag, {
+//       className: `pointer ${className}`,
+//       active,
+//       ...rest
+//     })
+//   ) : (
+//     <span className={`pointer default ${className}`} {...rest}></span>
+//   )
+// }
  
-export default Pointer
+// export default Pointer
