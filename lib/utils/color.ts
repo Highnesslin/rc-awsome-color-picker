@@ -189,20 +189,36 @@ export const matchLinearGradient = (gradientVal: string): MatchLinearGradientRes
     gradientVal = 'linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgb(228, 255, 0) 10%, #dd3b3b 90%, rgba(255, 255, 255, 0) 100%)'
     return matchLinearGradient(gradientVal)
   }
+  
+  const [, , direction] = match
 
-  const [, gradientType, direction, colorStopValues] = match
   const colors: string[] = []
   const stops: number[] = []
-
-  colorStopValues.replace(colorAndPosRegx, (_, color, percent) => {
+  gradientVal.replace(colorAndPosRegx, (_, color, percent) => {
     colors.push(color);
     stops.push(parseFloat(percent) / 100);
 
     return ''
-  });
+  })
+
+  // const { colors, stops } = colorStopValues.reduce<{
+  //   colors: string[]
+  //   stops: number[]
+  // }>((result, item) => {
+  //   item.replace(colorAndPosRegx, (_, color, percent) => {
+  //     result.colors.push(color);
+  //     result.stops.push(parseFloat(percent) / 100);
+  
+  //     return ''
+  //   })
+
+  //   return result
+  // }, {
+  //   colors: [],
+  //   stops: []
+  // })
 
   return {
-    // gradientType,
     linearColor: gradientVal,
     direction,
     colors,
@@ -222,4 +238,33 @@ export const genLinearGradient = (param: Pick<MatchLinearGradientRes, 'colors' |
   }, []).join(',')
 
   return `linear-gradient(${direction}, ${linearVal})`
+}
+
+export enum KEY {
+  PURE = 'PURE',
+  LINEAR = 'LINEAR',
+  RADIAL = 'RADIAL',
+}
+const REGX_RULES = [
+  {
+    key: KEY.PURE,
+    regx: /^#?([a-fA-F0-9]{3}$)|([a-fA-F0-9]{6}$)|((rgba|RGB)\(\s*((25[0-5]|2[0-4]\d|1\d{1,2}|\d{1,2})\s*,){2}\s*(25[0-5]|2[0-4]\d|1\d{1,2}|\d{1,2})\s*(,\s*([01](\.\d+)?))?\))$/
+  },
+  {
+    key: KEY.LINEAR,
+    regx: /linear-gradient\([^(]*(\([^)]*\)[^(]*)*[^)]*\)/
+  },
+  {
+    key: KEY.RADIAL,
+    regx: /radial-gradient\([^(]*(\([^)]*\)[^(]*)*[^)]*\)/
+  }
+]
+export const checkColorType = (color: string) => {
+  for (const { key, regx } of REGX_RULES) {
+    if (regx.test(color)) {
+      return key
+    }
+  }
+
+  return KEY.PURE
 }
