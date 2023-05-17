@@ -2,9 +2,15 @@
 
 基于 [mb-react-color-picker](https://github.com/mockingbot/mb-color-picker)二次开发
 
-![preview](https://yun.dui88.com/tuia-fed/assets/linear.jpg)
+## Preview
 
-![preview](https://yun.dui88.com/tuia-fed/assets/pure.jpg)
+### 纯色
+
+<img width="50%" alt="纯色" src="https://yun.dui88.com/tuia-fed/assets/2e37237b-aacf-4a28-be98-b1fcb3771040.jpg" />
+
+### 渐变
+
+<img width="50%" alt="渐变" src="https://yun.dui88.com/tuia-fed/assets/cf24f228-22ab-40ea-9343-3c71ecc48d8d.jpg" />
 
 ## Install
 
