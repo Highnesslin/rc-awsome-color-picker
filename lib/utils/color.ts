@@ -201,23 +201,6 @@ export const matchLinearGradient = (gradientVal: string): MatchLinearGradientRes
     return ''
   })
 
-  // const { colors, stops } = colorStopValues.reduce<{
-  //   colors: string[]
-  //   stops: number[]
-  // }>((result, item) => {
-  //   item.replace(colorAndPosRegx, (_, color, percent) => {
-  //     result.colors.push(color);
-  //     result.stops.push(parseFloat(percent) / 100);
-  
-  //     return ''
-  //   })
-
-  //   return result
-  // }, {
-  //   colors: [],
-  //   stops: []
-  // })
-
   return {
     linearColor: gradientVal,
     direction,

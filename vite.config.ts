@@ -9,7 +9,7 @@ export default defineConfig({
     lib: {
       entry: resolve(__dirname, 'lib/index.tsx'),
       name: 'RcAwsomeColorPicker',
-      formats: ['es', 'cjs'],
+      formats: ['es'],
       fileName: 'rc-awsome-color-picker',
     },
     rollupOptions: {
